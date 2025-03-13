@@ -150,11 +150,11 @@ import { Link } from 'react-router-dom'
 export default function Example() {
   const [open, setOpen] = useState(false)
   const [login, setLogin] = useState(false)
-  // const [user, setUser] = useState(null); // Store user data from MongoDB
+  const [user, setUser] = useState(); // Store user data from MongoDB
 
   // useEffect(() => {
   //   const token = localStorage.getItem('token');
-    
+
   //   if (token) {
   //     setLogin(true); // User is logged in
 
@@ -178,28 +178,39 @@ export default function Example() {
   // }, []); // Empty dependency array to run this only once on mount
 
 
- 
+
   useEffect(() => {
     const token = localStorage.getItem("token");
-    
+
     if (token) {
-      setLogin(true);  // User is logged in
+      setLogin(true);
+      const storedUser = JSON.parse(localStorage.getItem("user"));
+      setUser(storedUser); // Set user data from localStorage
     } else {
       setLogin(false); // User is not logged in
     }
   }, []);
 
+
+  if (login) {
+    console.log("navigation user info",user);
+  } else {
+    console.log("User not registered");
+  }
+
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    setLogin(false)
     window.location.href = "/";
   };
 
-//  {const token = User.findOne({token});
-//  const user = localStorage.getItem("user");
-//   console.log(token);
-//   console.log(user);
-//  }
+  //  {const token = User.findOne({token});
+  //  const user = localStorage.getItem("user");
+  //   console.log(token);
+  //   console.log(user);
+  //  }
 
 
 
@@ -330,6 +341,7 @@ export default function Example() {
       <header className="relative bg-white">
         <p className="flex h-10 items-center justify-center bg-indigo-600 px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
           Get free delivery on orders over $100
+          {/* {user._id} */}
         </p>
 
         <nav aria-label="Top" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -466,12 +478,17 @@ export default function Example() {
                      {auth.user?.fullName[0].toUpperCase()
 
                     {auth.user?.firstName[0].toUpperCase()} */}
+<div>
+                    {/* {user} */}
 
+</div>
                   {/* </Avatar>  */}
-                  <Avatar className='' style={{backgroundColor:"grey"}}>
-                    {/* {login === true ? user.firstName :<p>p</p>} */}
-                    </Avatar>
-
+                  <Avatar style={{ backgroundColor: "grey" }}>
+                    {/* {user.firstName ? user.firstName[0].toUpperCase() : 'U'} */}
+                    {/* {user.mobile } */}
+                    {/* <Link to={`/profile/${user._id}`}/> */}
+                  </Avatar>
+                  {/* <span>{user.firstName}</span> */}
                 </div>
 
                 {/* Search */}

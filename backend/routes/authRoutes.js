@@ -25,9 +25,11 @@ router.post("/sighup", async (req, res) => {
       console.log("Hashed Password1:", hashedPassword);
   
       const newUser = new User({ firstName,lastName, email, password: hashedPassword, mobile });
+      console.log("newUser",newUser)
       await newUser.save();
   
-      res.status(201).json({ message: "User created successfully" });
+      res.status(201).json({message: "User created successfully" });
+      // res.status(201).json({ newUser,message: "User created successfully" });
     } catch (error) {
       console.error("Signup Error:", error);
       res.status(500).json({ message: "Server error" });
@@ -58,6 +60,8 @@ router.post("/sighup", async (req, res) => {
       // console.log("Password Match Result:", isMatch);
   
       if (!isPasswordValid) return res.status(400).json({ message: "Invalid password" });
+      console.log("password-ram",isPasswordValid)
+
   
       // Generate JWT
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "48h" });
